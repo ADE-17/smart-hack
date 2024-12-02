@@ -15,11 +15,11 @@ wines = pd.DataFrame({
     "Orders in Last 24hrs": [15, 25, 5, 12, 8, 10],
     "Delivery Time": ["5-7 days", "3-5 days", "7-10 days", "5-7 days", "6-8 days", "4-6 days"],
     "Image Path": [r"C:\Users\cbkri\Desktop\smart_hack\wine1.jpg",
-     r"C:\Users\cbkri\Desktop\smart_hack\wine2.jpg", 
-     r"C:\Users\cbkri\Desktop\smart_hack\wine3.jpg", 
-     r"C:\Users\cbkri\Desktop\smart_hack\wine4.jpg", 
-     r"C:\Users\cbkri\Desktop\smart_hack\wine5.jpg",
-      r"C:\Users\cbkri\Desktop\smart_hack\wine6.jpg"],
+     "wine2.jpg", 
+     "wine3.jpg", 
+     "wine4.jpg", 
+     "wine5.jpg",
+      "wine6.jpg"],
     "YouTube Review": [
         "https://youtu.be/sample1",
         "https://youtu.be/sample2",
@@ -54,11 +54,11 @@ def show_main_page():
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.image(r"C:\Users\cbkri\Desktop\smart_hack\team.jpg", width=100, caption="")
+        st.image("team.jpg", width=100, caption="")
     with col2:
-        st.image(r"C:\Users\cbkri\Desktop\smart_hack\dlg.png", width=100, caption="DLG Certified")
+        st.image("dlg.png", width=100, caption="DLG Certified")
     with col3:
-        st.image(r"C:\Users\cbkri\Desktop\smart_hack\wset.png", width=100, caption="WSET Certified")
+        st.image("wset.png", width=100, caption="WSET Certified")
 
 
     # Filters
