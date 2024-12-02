@@ -106,7 +106,7 @@ def show_wine_details(wine):
 
     # Payment Section
     st.header("Complete Your Order")
-    st.image(r"C:\Users\cbkri\Desktop\smart_hack\paypal_logo.png", width=100)
+    st.image("paypal_logo.png", width=100)
     if st.button("Pay with PayPal"):
         st.success("Payment successful! Thank you for your order.")
 
