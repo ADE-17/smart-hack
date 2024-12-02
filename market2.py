@@ -14,7 +14,7 @@ wines = pd.DataFrame({
     "Import Cost": [3, 5, 7, 4, 5, 6],
     "Orders in Last 24hrs": [15, 25, 5, 12, 8, 10],
     "Delivery Time": ["5-7 days", "3-5 days", "7-10 days", "5-7 days", "6-8 days", "4-6 days"],
-    "Image Path": [r"C:\Users\cbkri\Desktop\smart_hack\wine1.jpg",
+    "Image Path": ["wine1.jpg",
      "wine2.jpg", 
      "wine3.jpg", 
      "wine4.jpg", 
