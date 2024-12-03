@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly
 import plotly.express as px
 
 # Dummy farmer credentials
@@ -23,6 +24,11 @@ if not st.session_state['logged_in']:
             st.error("Invalid username or password.")
     st.stop()
 
+st.set_page_config(page_title="WineBridge Marketplace", layout="wide")
+
+# Sidebar navigation
+menu = st.sidebar.radio("Navigation", ["Add Wine", "Manage Orders", "Marketing & Promotion", "Dashboard", "Pricing & Forecasting"])
+
 # Initialize or load dummy data
 if 'warehouse_data' not in st.session_state:
     st.session_state['warehouse_data'] = pd.DataFrame({
@@ -37,10 +43,10 @@ if 'warehouse_data' not in st.session_state:
     })
 
 
-st.set_page_config(page_title="WineBridge Marketplace", layout="wide")
+# st.set_page_config(page_title="WineBridge Marketplace", layout="wide")
 
-# Sidebar navigation
-menu = st.sidebar.radio("Navigation", ["Add Wine", "Manage Orders", "Marketing & Promotion", "Dashboard", "Pricing & Forecasting"])
+# # Sidebar navigation
+# menu = st.sidebar.radio("Navigation", ["Add Wine", "Manage Orders", "Marketing & Promotion", "Dashboard", "Pricing & Forecasting"])
 
 # 1. Add Wine to Virtual Warehouse
 if menu == "Add Wine":
@@ -103,26 +109,55 @@ elif menu == "Manage Orders":
             st.success(f"Order updated with customer and delivery details.")
 
 # 3. Marketing & Promotion
-elif menu == "Marketing & Promotion":
+if menu == "Marketing & Promotion":
     st.title("Marketing & Promotion")
-    
-    st.subheader("Promote Wine via Ads")
-    st.button("Create Google Ads Campaign")
-    st.button("Share on Social Media")
 
+    # Email Marketing with AI-Generated Emails
+    st.subheader("Send Personalized AI-Generated Emails")
+
+    with st.form("email_form"):
+        subject = st.text_input("Email Subject", value="Exciting News: New Wines in Stock!")
+        
+        # AI-generated email body based on the subject
+        if subject:
+            ai_generated_message = f"""
+            Dear Valued Customer,
+
+            We are excited to share some great news with you! Our latest selection of wines, including premium and luxury options, is now available on our platform. 
+            Whether you are looking for a bold Red Delight or a crisp Chardonnay Reserve, we have something for every palate.
+
+            Visit our marketplace today to explore and enjoy exclusive discounts. Don't miss out on the chance to experience these exquisite flavors from top vineyards worldwide!
+
+            Cheers,
+            The WineBridge Team
+            """
+        else:
+            ai_generated_message = "Please enter a subject to generate the email content."
+
+        st.text_area("AI-Generated Email Content", value=ai_generated_message, height=200, disabled=True)
+
+        submitted = st.form_submit_button("Send Emails")
+        if submitted:
+            email_list = ["customer1@example.com", "customer2@example.com", "customer3@example.com"]  # Replace with actual email list
+            st.success(f"Emails sent to {len(email_list)} customers!")
+
+
+    # Influencer Section
     st.subheader("Collaborate with Influencers")
-    influencer_paths = {
-        "Ronaldo": r"C:\Users\cbkri\Desktop\smart_hack\ronaldo.jpg",
-        "Thomas Muller": r"C:\Users\cbkri\Desktop\smart_hack\thomas.jpg",
-        "Elon Musk": r"C:\Users\cbkri\Desktop\smart_hack\elon.jpg"
-    }
+    influencers = pd.DataFrame({
+        "Name": ["Christopher Roland", "Thobias Meier", "Egon Maas", "Emilia Watzen", "Selina Groß", "Leonel Meiss"],
+        "Followers": ["10K", "21K", "1.1M", "128K", "3K", "25K"],
+        "Cost per Post (EUR)": [50, 200, 1000, 150, 80, 900]
+    })
 
-    for name, path in influencer_paths.items():
-        st.image(path, caption=name, width=150)
-        st.button(f"Contact {name}")
+    for idx, row in influencers.iterrows():
+        st.image(f"placeholder_image_{idx}.jpg", caption=row["Name"], width=150)  # Replace with image paths
+        st.write(f"Followers: {row['Followers']}")
+        st.write(f"Cost per Post: €{row['Cost per Post (EUR)']}")
+        st.button(f"Contact {row['Name']}")
 
     st.subheader("Podcast Promotion")
-    st.image(r"C:\Users\cbkri\Desktop\smart_hack\podcast.jpg", caption="Wine Podcast Banner")
+    st.image("podcast.jpg", caption="Wine Podcast Banner")
     podcasts = ["Wine Talks", "Grape Expectations", "The Vintner's Voice"]
     selected_podcast = st.selectbox("Choose Podcast", podcasts)
     st.button(f"Contact {selected_podcast}")
@@ -219,27 +254,10 @@ if menu == "Pricing & Forecasting":
     st.plotly_chart(fig_forecast)
 
     st.subheader("AI-powered Sales Insights")
-    st.write("""
-    - **Key Takeaways:**
-      - Sales are expected to peak during holiday seasons.
-      - Chardonnay Reserve shows a steady increase in demand.
-      - Marketing efforts should focus on Red Delight for the next quarter.
-    """)
-
-# 2. Manage Orders
-elif menu == "Manage Orders":
-    st.title("Manage Orders")
-    if not st.session_state['warehouse_data'].empty:
-        st.dataframe(st.session_state['warehouse_data'])
-
-        st.subheader("Order Details")
-        order_idx = st.selectbox("Select an order to update", st.session_state['warehouse_data'].index)
-        customer_name = st.text_input("Customer Name", key="customer")
-        customer_address = st.text_area("Customer Address", key="address")
-        delivery_partner = st.text_input("Delivery Partner Name", key="partner")
-
-        if st.button("Update Order"):
-            st.session_state['warehouse_data'].at[order_idx, 'Customer'] = customer_name
-            st.session_state['warehouse_data'].at[order_idx, 'Address'] = customer_address
-            st.session_state['warehouse_data'].at[order_idx, 'Delivery Partner'] = delivery_partner
-            st.success(f"Order updated with customer and delivery details.")
+    if st.button("Generate Insights"):
+        st.write("""
+        - **Key Takeaways:**
+            - Sales are expected to peak during holiday seasons.
+            - Chardonnay Reserve shows a steady increase in demand.
+            - Marketing efforts should focus on Red Delight for the next quarter.
+        """)
